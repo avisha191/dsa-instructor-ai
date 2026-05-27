@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>DSA Instructor AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Poppins",sans-serif;
+    }
+
+    body{
+      height:100vh;
+
+      background:
+      radial-gradient(circle at top left,#2563eb33,transparent 25%),
+      radial-gradient(circle at bottom right,#7c3aed33,transparent 25%),
+      linear-gradient(135deg,#020617,#0f172a,#111827);
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      padding:20px;
+    }
+
+    .container{
+
+      width:100%;
+      max-width:1200px;
+      height:92vh;
+
+      display:flex;
+      overflow:hidden;
+
+      border-radius:28px;
+
+      border:1px solid rgba(255,255,255,0.08);
+
+      background:rgba(255,255,255,0.05);
+
+      backdrop-filter:blur(22px);
+
+      box-shadow:
+      0 0 60px rgba(0,0,0,0.6),
+      inset 0 0 20px rgba(255,255,255,0.03);
+
+    }
+
+    /* LEFT SECTION */
+
+    .left{
+
+      width:34%;
+
+      background:
+      linear-gradient(180deg,#2563eb,#1d4ed8,#312e81);
+
+      padding:45px 30px;
+
+      position:relative;
+
+      overflow:hidden;
+
+      color:white;
+    }
+
+    .left::before{
+
+      content:"";
+
+      position:absolute;
+
+      width:350px;
+      height:350px;
+
+      background:rgba(255,255,255,0.08);
+
+      border-radius:50%;
+
+      top:-120px;
+      right:-100px;
+    }
+
+    .left::after{
+
+      content:"";
+
+      position:absolute;
+
+      width:250px;
+      height:250px;
+
+      background:rgba(255,255,255,0.05);
+
+      border-radius:50%;
+
+      bottom:-100px;
+      left:-70px;
+    }
+
+    .logo{
+
+      width:75px;
+      height:75px;
+
+      border-radius:20px;
+
+      background:rgba(255,255,255,0.15);
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      font-size:34px;
+
+      margin-bottom:30px;
+
+      backdrop-filter:blur(10px);
+    }
+
+    .left h1{
+
+      font-size:42px;
+      line-height:1.2;
+
+      margin-bottom:20px;
+
+      font-weight:700;
+    }
+
+    .left p{
+
+      line-height:1.8;
+
+      color:#dbeafe;
+
+      font-size:15px;
+    }
+
+    .topics{
+      margin-top:35px;
+    }
+
+    .tag{
+
+      display:inline-block;
+
+      padding:10px 16px;
+
+      margin:8px 6px;
+
+      border-radius:20px;
+
+      background:rgba(255,255,255,0.14);
+
+      font-size:14px;
+
+      backdrop-filter:blur(10px);
+
+      transition:0.3s;
+    }
+
+    .tag:hover{
+
+      transform:translateY(-3px);
+
+      background:rgba(255,255,255,0.22);
+    }
+
+    /* RIGHT SECTION */
+
+    .right{
+
+      width:66%;
+
+      display:flex;
+      flex-direction:column;
+
+      padding:22px;
+    }
+
+    .chat-header{
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      padding:12px 15px;
+
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+
+    .chat-header h2{
+
+      color:white;
+
+      font-size:25px;
+    }
+
+    .status{
+
+      color:#22c55e;
+
+      font-size:14px;
+
+      font-weight:500;
+    }
+
+    .chat-box{
+
+      flex:1;
+
+      overflow-y:auto;
+
+      padding:25px 10px;
+
+      scroll-behavior:smooth;
+    }
+
+    .message{
+
+      max-width:80%;
+
+      padding:16px 18px;
+
+      margin:14px 0;
+
+      border-radius:20px;
+
+      line-height:1.8;
+
+      word-wrap:break-word;
+
+      animation:fade 0.3s ease;
+
+      font-size:15px;
+    }
+
+    .user{
+
+      background:
+      linear-gradient(135deg,#2563eb,#3b82f6);
+
+      color:white;
+
+      margin-left:auto;
+
+      border-bottom-right-radius:6px;
+
+      box-shadow:
+      0 8px 25px rgba(37,99,235,0.25);
+    }
+
+    .bot{
+
+      background:rgba(255,255,255,0.08);
+
+      color:white;
+
+      border-bottom-left-radius:6px;
+
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .bot pre{
+
+      background:#020617;
+
+      padding:14px;
+
+      border-radius:12px;
+
+      overflow-x:auto;
+
+      margin-top:12px;
+
+      color:#38bdf8;
+    }
+
+    .bot code{
+
+      color:#38bdf8;
+
+      font-family:monospace;
+    }
+
+    @keyframes fade{
+
+      from{
+        opacity:0;
+        transform:translateY(10px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateY(0px);
+      }
+    }
+
+    .typing{
+
+      color:#94a3b8;
+
+      padding-left:10px;
+
+      margin-bottom:10px;
+
+      display:none;
+
+      animation:blink 1s infinite;
+    }
+
+    @keyframes blink{
+
+      0%,100%{
+        opacity:0.4;
+      }
+
+      50%{
+        opacity:1;
+      }
+    }
+
+    /* INPUT AREA */
+
+    .input-area{
+
+      display:flex;
+
+      gap:12px;
+
+      border-top:1px solid rgba(255,255,255,0.08);
+
+      padding-top:18px;
+    }
+
+    .input-area input{
+
+      flex:1;
+
+      border:none;
+      outline:none;
+
+      padding:17px;
+
+      border-radius:16px;
+
+      background:rgba(255,255,255,0.08);
+
+      color:white;
+
+      font-size:15px;
+    }
+
+    .input-area input::placeholder{
+      color:#94a3b8;
+    }
+
+    .input-area button{
+
+      border:none;
+
+      padding:16px 30px;
+
+      border-radius:16px;
+
+      cursor:pointer;
+
+      font-weight:600;
+
+      color:white;
+
+      background:
+      linear-gradient(135deg,#3b82f6,#2563eb);
+
+      transition:0.3s;
+
+      font-size:15px;
+    }
+
+    .input-area button:hover{
+
+      transform:scale(1.05);
+
+      box-shadow:
+      0 0 25px rgba(37,99,235,0.4);
+    }
+
+    .input-area button:disabled{
+
+      opacity:0.6;
+
+      cursor:not-allowed;
+    }
+
+    /* SCROLLBAR */
+
+    ::-webkit-scrollbar{
+      width:6px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+
+      background:#3b82f6;
+
+      border-radius:20px;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:900px){
+
+      body{
+        padding:0;
+      }
+
+      .container{
+
+        flex-direction:column;
+
+        height:100vh;
+
+        border-radius:0;
+      }
+
+      .left{
+
+        width:100%;
+
+        height:auto;
+      }
+
+      .right{
+        width:100%;
+      }
+
+      .message{
+        max-width:95%;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT SIDE -->
+
+    <div class="left">
+
+      <div class="logo">
+        🤖
+      </div>
+
+      <h1>
+        DSA Instructor AI
+      </h1>
+
+      <p>
+        Ask any Data Structures & Algorithms question and get
+        beginner-friendly explanations instantly with code,
+        dry runs and optimized approaches.
+      </p>
+
+      <div class="topics">
+
+        <span class="tag">Arrays</span>
+        <span class="tag">Trees</span>
+        <span class="tag">Graphs</span>
+        <span class="tag">DP</span>
+        <span class="tag">Recursion</span>
+        <span class="tag">Greedy</span>
+        <span class="tag">Stacks</span>
+        <span class="tag">Queues</span>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+
+    <div class="right">
+
+      <div class="chat-header">
+
+        <h2>DSA Chat</h2>
+
+        <div class="status">
+          ● AI Online
+        </div>
+
+      </div>
+
+      <div class="chat-box" id="chatBox">
+
+        <div class="message bot">
+
+          Hello 👋 <br><br>
+
+          I am your DSA Instructor AI.<br><br>
+
+          Ask me anything related to:
+          <br><br>
+
+          • Arrays <br>
+          • Linked Lists <br>
+          • Trees <br>
+          • Graphs <br>
+          • Dynamic Programming <br>
+          • Recursion <br>
+          • Competitive Programming
+
+        </div>
+
+      </div>
+
+      <div class="typing" id="typing">
+        AI is typing...
+      </div>
+
+      <div class="input-area">
+
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Ask DSA Question..."
+        >
+
+        <button id="sendBtn">
+          Send
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+    const typing = document.getElementById("typing");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Chat Memory
+    const history = [];
+
+    async function sendMessage(){
+
+      const message = userInput.value.trim();
+
+      if(message === "") return;
+
+      // Add User Message
+      addMessage(message,"user");
+
+      // Save User Message
+      history.push({
+        role:"user",
+        parts:[
+          {
+            text:message
+          }
+        ]
+      });
+
+      // Clear Input
+      userInput.value="";
+
+      // Show Typing
+      typing.style.display="block";
+
+      // Disable Button
+      sendBtn.disabled=true;
+
+      try{
+
+        // CALL BACKEND
+        const response = await fetch(
+          "http://localhost:3000/chat",
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+              history:history
+            })
+
+          }
+        );
+
+        const data = await response.json();
+
+        // Hide Typing
+        typing.style.display="none";
+
+        // Enable Button
+        sendBtn.disabled=false;
+
+        // Error Handling
+        if(data.error){
+
+          addMessage(
+            "Error : " + data.error,
+            "bot"
+          );
+
+          return;
+        }
+
+        // AI Reply
+        const botReply =
+        data.reply || "No response generated.";
+
+        // Save AI Reply
+        history.push({
+
+          role:"model",
+
+          parts:[
+            {
+              text:botReply
+            }
+          ]
+
+        });
+
+        // Show AI Reply
+        addMessage(botReply,"bot");
+
+      }
+
+      catch(error){
+
+        typing.style.display="none";
+
+        sendBtn.disabled=false;
+
+        addMessage(
+          "Server Error. Make sure backend is running on port 3000.",
+          "bot"
+        );
+
+        console.log(error);
+
+      }
+
+    }
+
+    // ADD MESSAGE TO UI
+
+    function addMessage(text, sender){
+
+  const div = document.createElement("div");
+
+  div.classList.add("message");
+  div.classList.add(sender);
+
+  // REMOVE MARKDOWN SYMBOLS
+  let cleanText = text
+
+    // Remove ### headings
+    .replace(/#{1,6}\s?/g, "")
+
+    // Remove bold **
+    .replace(/\*\*/g, "")
+
+    // Remove horizontal lines ---
+    .replace(/---/g, "")
+
+    // Remove bullet stars
+    .replace(/\*\s/g, "• ")
+
+    // Format code blocks
+    .replace(
+      /```([\s\S]*?)```/g,
+      '<pre><code>$1</code></pre>'
+    )
+
+    // New lines
+    .replace(/\n/g, "<br>");
+
+  div.innerHTML = cleanText;
+
+  chatBox.appendChild(div);
+
+  // Auto Scroll
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+    // SEND BUTTON
+    sendBtn.addEventListener("click",sendMessage);
+
+    // ENTER KEY SUPPORT
+    userInput.addEventListener("keypress",function(e){
+
+      if(e.key === "Enter"){
+        sendMessage();
+      }
+
+    });
+
+</script>
+
+</body>
+
+</html>
