@@ -42,7 +42,7 @@ app.post("/chat", async (req, res) => {
 
     const response = await ai.models.generateContent({
 
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
 
       contents: history,
 
@@ -98,13 +98,17 @@ reply rudely and tell them to ask sensible DSA questions.
 
   catch (error) {
 
-    console.log(error);
+  console.log("FULL ERROR:", error);
 
-    res.status(500).json({
-      error: "Something went wrong"
-    });
+  res.status(500).json({
 
-  }
+    error:
+      error.message ||
+      "Internal Server Error"
+
+  });
+
+}
 
 });
 
